@@ -61,17 +61,18 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     private double calculFrais(int kmValue, int cvValue, String valeurCarburant) {
+        Passerelle objPasserelle = new Passerelle();
         double montantFrais = kmValue;
         if (valeurCarburant.equals("Diesel")) {
             switch (cvValue) {
                 case 4:
-                    montantFrais *= 0.52;
+                    montantFrais *= objPasserelle.GetCoutDieselCV4();
                     break;
                 case 5:
-                    montantFrais *= 0.58;
+                    montantFrais *= objPasserelle.GetCoutDieselCV5Et6();
                     break;
                 case 6:
-                    montantFrais *= 0.58;
+                    montantFrais *= objPasserelle.GetCoutDieselCV5Et6();
                     break;
                 default:
                     break;
@@ -80,13 +81,13 @@ public class ResultActivity extends AppCompatActivity {
             if(valeurCarburant.equals("Essence")){
                 switch (cvValue) {
                     case 4:
-                        montantFrais *= 0.62;
+                        montantFrais *= objPasserelle.GetCoutEssenceCV4();
                         break;
                     case 5:
-                        montantFrais *= 0.68;
+                        montantFrais *= objPasserelle.GetCoutEssenceCV5Et6();
                         break;
                     case 6:
-                        montantFrais *= 0.68;
+                        montantFrais *= objPasserelle.GetCoutEssenceCV5Et6();
                         break;
                     default:
                         break;
