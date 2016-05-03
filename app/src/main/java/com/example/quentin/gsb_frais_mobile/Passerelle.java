@@ -3,6 +3,7 @@ package com.example.quentin.gsb_frais_mobile;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.net.URL;
 import java.util.ArrayList;

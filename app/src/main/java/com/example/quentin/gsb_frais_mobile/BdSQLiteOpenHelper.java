@@ -9,11 +9,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class BdSQLiteOpenHelper extends SQLiteOpenHelper {
     private String requeteCarburant = "CREATE TABLE carburant("
             + "id_carburant INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + "libelle_carburant TEXT NOT NULL";
+            + "libelle_carburant TEXT NOT NULL)";
 
     private String requetePuissanceFiscale = "CREATE TABLE puissanceFiscale("
             + "id_puissanceFiscale INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + "puissance_fiscale INTEGER NOT NULL";
+            + "puissance_fiscale INTEGER NOT NULL)";
 
     private String requeteTarif = "CREATE TABLE tarif("
             + "idPuissanceFiscale INTEGER,"
@@ -31,8 +31,8 @@ public class BdSQLiteOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(requeteCarburant);
-        // db.execSQL(requetePuissanceFiscale);
-        // db.execSQL(requeteTarif);
+        db.execSQL(requetePuissanceFiscale);
+        db.execSQL(requeteTarif);
 
         db.execSQL("INSERT INTO carburant (libelle_carburant) VALUES('Essence');");
         db.execSQL("INSERT INTO carburant (libelle_carburant) VALUES('Diesel');");

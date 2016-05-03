@@ -44,12 +44,18 @@ public class MainActivity extends AppCompatActivity {
         });
 
         ArrayList<Carburant> libelles_carburant = getCarburantLib();
-        /*RadioButton radio1 = (RadioButton) findViewById(R.id.radio1);
+        RadioButton radio1 = (RadioButton) findViewById(R.id.radio1);
         RadioButton radio2 = (RadioButton) findViewById(R.id.radio2);
 
+        boolean radio1Done = false;
         for(Carburant carburant : libelles_carburant) {
-            Log.d("mes messages", carburant.getLibelle_carburant());
-        }*/
+            if(!radio1Done) {
+                radio1.setText(carburant.getLibelle_carburant());
+                radio1Done = true;
+            } else {
+                radio2.setText(carburant.getLibelle_carburant());
+            }
+        }
 
         validation();
     }
