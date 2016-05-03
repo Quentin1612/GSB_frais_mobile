@@ -68,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
                 i.putExtra("carburantChoisi", carburant);
                 startActivity(i);
                 finish();
+
+                // testClassPasserelle();
             }
         });
     }

@@ -23,9 +23,4 @@ public class Passerelle {
     public double GetCoutEssenceCV5Et6() {
         return coutEssenceCV5Et6;
     }
-
-    public void dbConnection(){
-
-    }
-
 }
