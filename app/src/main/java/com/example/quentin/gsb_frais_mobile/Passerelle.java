@@ -38,10 +38,32 @@ public class Passerelle {
         acces_db = new BdSQLiteOpenHelper(ct, base, null, version);
     }
 
+    public ArrayList<PuissanceFiscale> getPuissancesFiscales(){
+        String request = "SELECT * FROM puissanceFiscale;";
+        Cursor curseur = acces_db.getReadableDatabase().rawQuery(request, null);
+        Log.d("mesmessages", "yep");
+        return cursorToPFArrayList(curseur);
+    }
+
+    private ArrayList<PuissanceFiscale> cursorToPFArrayList(Cursor curseur) {
+        ArrayList<PuissanceFiscale> listePuissancesFiscales = new ArrayList<PuissanceFiscale>();
+        int id;
+        String valeur;
+
+        curseur.moveToFirst();
+        while(!curseur.isAfterLast()) {
+            id = curseur.getInt(0);
+            valeur = curseur.getString(1);
+            listePuissancesFiscales.add(new PuissanceFiscale(id, valeur));
+            curseur.moveToNext();
+        }
+
+        return listePuissancesFiscales;
+    }
+
     public ArrayList<Carburant> getCarburants(){
-        Cursor curseur;
-        String request = "SELECT * FROM carburant";
-        curseur = acces_db.getReadableDatabase().rawQuery(request, null);
+        String request = "SELECT * FROM carburant;";
+        Cursor curseur = acces_db.getReadableDatabase().rawQuery(request, null);
         return cursorToCarburantArrayList(curseur);
     }
 

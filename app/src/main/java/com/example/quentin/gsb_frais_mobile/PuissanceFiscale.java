@@ -5,15 +5,12 @@ package com.example.quentin.gsb_frais_mobile;
  */
 public class PuissanceFiscale {
     private int id_puissanceFiscale;
-    private int puissance_fiscale;
+    private String puissance_fiscale;
 
-    public int getId_carburant() { return id_puissanceFiscale; }
-    public void setId_carburant(int id) { this.id_puissanceFiscale = id; }
+    public int getId_puissanceFiscale() { return id_puissanceFiscale; }
+    public String getValeurPuissanceFiscale() { return puissance_fiscale; }
 
-    public int getLibelle_carburant() { return puissance_fiscale; }
-    public void setLibelle_carburant(int puissanceFiscale) { this.puissance_fiscale = puissanceFiscale; }
-
-    public PuissanceFiscale(int id, int puissanceFiscale) {
+    public PuissanceFiscale(int id, String puissanceFiscale) {
         this.id_puissanceFiscale = id;
         this.puissance_fiscale = puissanceFiscale;
     }

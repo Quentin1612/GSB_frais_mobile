@@ -26,10 +26,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("mesmessages", "debut");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.d("mesmessages", "debut2");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         leBtnValider = (Button)findViewById(R.id.buttonValider);
         setSupportActionBar(toolbar);
@@ -43,21 +41,53 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ArrayList<Carburant> libelles_carburant = getCarburantLib();
+        fillPFTextFields();
+        fillCarbuTextFields();
+        validation();
+    }
+
+    private void fillPFTextFields() {
+        ArrayList<PuissanceFiscale> valeurs_PF = getPFValues();
         RadioButton radio1 = (RadioButton) findViewById(R.id.radio1);
         RadioButton radio2 = (RadioButton) findViewById(R.id.radio2);
+        RadioButton radio3 = (RadioButton) findViewById(R.id.radio3);
 
-        boolean radio1Done = false;
-        for(Carburant carburant : libelles_carburant) {
-            if(!radio1Done) {
-                radio1.setText(carburant.getLibelle_carburant());
-                radio1Done = true;
+        boolean radio1Set = false;
+        boolean radio2Set = false;
+        for(PuissanceFiscale pf : valeurs_PF) {
+            if(!radio1Set) {
+                radio1.setText(pf.getValeurPuissanceFiscale());
+                radio1Set = true;
+            } else if (!radio2Set) {
+                radio2.setText(pf.getValeurPuissanceFiscale());
+                radio2Set = true;
             } else {
-                radio2.setText(carburant.getLibelle_carburant());
+                radio3.setText(pf.getValeurPuissanceFiscale());
             }
         }
+    }
 
-        validation();
+    private ArrayList<PuissanceFiscale> getPFValues() {
+        ArrayList<PuissanceFiscale> resultats = new ArrayList<PuissanceFiscale>();
+        Passerelle importDonnees = new Passerelle(this);
+        resultats = importDonnees.getPuissancesFiscales();
+        return resultats;
+    }
+
+    private void fillCarbuTextFields() {
+        ArrayList<Carburant> libelles_carburant = getCarburantLib();
+        RadioButton radio4 = (RadioButton) findViewById(R.id.radio4);
+        RadioButton radio5 = (RadioButton) findViewById(R.id.radio5);
+
+        boolean radio4Set = false;
+        for(Carburant carburant : libelles_carburant) {
+            if(!radio4Set) {
+                radio4.setText(carburant.getLibelle_carburant());
+                radio4Set = true;
+            } else {
+                radio5.setText(carburant.getLibelle_carburant());
+            }
+        }
     }
 
     private ArrayList<Carburant> getCarburantLib() {
@@ -74,17 +104,25 @@ public class MainActivity extends AppCompatActivity {
                 int nbKm = Integer.parseInt(leNbDeKm.getText().toString());
                 // Log.d("mesMessages",""+nbKm);
 
-                EditText leNbDeCV = (EditText)findViewById(R.id.editText_cv);
-                int CV = Integer.parseInt(leNbDeCV.getText().toString());
+                RadioGroup BtnRadiosCV = (RadioGroup)findViewById(R.id.radioGroupPF);
+                int selectedCVIndex = BtnRadiosCV.indexOfChild(findViewById(BtnRadiosCV.getCheckedRadioButtonId()));
+                int CV = 0;
+                switch(selectedCVIndex) {
+                    case 0:
+                        CV = 4;
+                        break;
+                    case 1:
+                        CV = 5;
+                        break;
+                    case 2:
+                        CV = 6;
+                        break;
+                }
 
                 RadioGroup BtnRadiosCarburant = (RadioGroup)findViewById(R.id.radioGroupFuel);
-                int selectedIndex = BtnRadiosCarburant.indexOfChild(findViewById(BtnRadiosCarburant.getCheckedRadioButtonId()));
-
+                int selectedFuelIndex = BtnRadiosCarburant.indexOfChild(findViewById(BtnRadiosCarburant.getCheckedRadioButtonId()));
                 String carburant = "";
-                switch(selectedIndex){
-                    case -1:
-                        carburant = "Aucun carburant saisi!";
-                        break;
+                switch(selectedFuelIndex){
                     case 0:
                         carburant = "Essence";
                         break;
