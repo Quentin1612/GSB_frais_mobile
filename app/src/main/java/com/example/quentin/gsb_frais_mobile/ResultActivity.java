@@ -52,15 +52,15 @@ public class ResultActivity extends AppCompatActivity {
         int valueCV = bu.getInt("nbrCV");
         String valeurCarburant = bu.getString("carburantChoisi");
 
-        double montantFrais = calculFrais(valueKm, valueCV, valeurCarburant);
+        /* double montantFrais = calculFrais(valueKm, valueCV, valeurCarburant);
 
         outputNbKm.setText("Kilomètres renseignés : " + valueKm + " km");
         outputCV.setText("Puissance fiscale du véhicule renseignée : " + valueCV + " cv");
         outputCarburant.setText("Carburant renseigné : " + valeurCarburant);
-        outputFrais.setText("Montant des frais kilométriques : " + montantFrais + " €");
+        outputFrais.setText("Montant des frais kilométriques : " + montantFrais + " €");*/
     }
 
-    private double calculFrais(int kmValue, int cvValue, String valeurCarburant) {
+    /*private double calculFrais(int kmValue, int cvValue, String valeurCarburant) {
         Passerelle objPasserelle = new Passerelle();
         double montantFrais = kmValue;
         if (valeurCarburant.equals("Diesel")) {
@@ -95,5 +95,5 @@ public class ResultActivity extends AppCompatActivity {
             }
         }
         return montantFrais;
-    }
+    }*/
 }

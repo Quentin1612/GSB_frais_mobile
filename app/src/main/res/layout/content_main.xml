@@ -79,14 +79,13 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Essence"
-            android:id="@+id/essenceRadio" />
+            android:id="@+id/radio1" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Diesel"
-            android:id="@+id/dieselButton" />
+            android:text=" "
+            android:id="@+id/radio2" />
 
     </RadioGroup>
 
