@@ -52,48 +52,13 @@ public class ResultActivity extends AppCompatActivity {
         int valueCV = bu.getInt("nbrCV");
         String valeurCarburant = bu.getString("carburantChoisi");
 
-        /* double montantFrais = calculFrais(valueKm, valueCV, valeurCarburant);
+        Passerelle importDonnees = new Passerelle(this);
+        double fraisAuKilometre = importDonnees.getMontantAuKilometre(valueCV, valeurCarburant);
+        double montantFrais = valueKm * fraisAuKilometre;
 
         outputNbKm.setText("Kilomètres renseignés : " + valueKm + " km");
         outputCV.setText("Puissance fiscale du véhicule renseignée : " + valueCV + " cv");
         outputCarburant.setText("Carburant renseigné : " + valeurCarburant);
-        outputFrais.setText("Montant des frais kilométriques : " + montantFrais + " €");*/
+        outputFrais.setText("Montant des frais kilométriques : " + montantFrais + " €");
     }
-
-    /*private double calculFrais(int kmValue, int cvValue, String valeurCarburant) {
-        Passerelle objPasserelle = new Passerelle();
-        double montantFrais = kmValue;
-        if (valeurCarburant.equals("Diesel")) {
-            switch (cvValue) {
-                case 4:
-                    montantFrais *= objPasserelle.GetCoutDieselCV4();
-                    break;
-                case 5:
-                    montantFrais *= objPasserelle.GetCoutDieselCV5Et6();
-                    break;
-                case 6:
-                    montantFrais *= objPasserelle.GetCoutDieselCV5Et6();
-                    break;
-                default:
-                    break;
-            }
-        } else {
-            if(valeurCarburant.equals("Essence")){
-                switch (cvValue) {
-                    case 4:
-                        montantFrais *= objPasserelle.GetCoutEssenceCV4();
-                        break;
-                    case 5:
-                        montantFrais *= objPasserelle.GetCoutEssenceCV5Et6();
-                        break;
-                    case 6:
-                        montantFrais *= objPasserelle.GetCoutEssenceCV5Et6();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-        return montantFrais;
-    }*/
 }

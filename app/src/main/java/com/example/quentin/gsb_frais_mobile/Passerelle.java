@@ -9,27 +9,6 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class Passerelle {
-    /*private double coutDieselCV4 = 0.52;
-    private double coutDieselCV5Et6 = 0.56;
-    private double coutEssenceCV4 = 0.56;
-    private double coutEssenceCV5Et6 = 0.58;
-
-    public double GetCoutDieselCV4() {
-        return coutDieselCV4;
-    }
-
-    public double GetCoutDieselCV5Et6() {
-        return coutDieselCV5Et6;
-    }
-
-    public double GetCoutEssenceCV4() {
-        return coutEssenceCV4;
-    }
-
-    public double GetCoutEssenceCV5Et6() {
-        return coutEssenceCV5Et6;
-    }*/
-
     private static String base = "bd_frais";
     private static int version = 1;
     private BdSQLiteOpenHelper acces_db;
@@ -38,10 +17,22 @@ public class Passerelle {
         acces_db = new BdSQLiteOpenHelper(ct, base, null, version);
     }
 
+    public double getMontantAuKilometre(int CV, String carbu) {
+        String request = "SELECT montant "
+                + "FROM carburant c"
+                + "INNER JOIN tarif t"
+                + "ON c.id_carburant = t.idCarburant"
+                + "INNER JOIN puissanceFiscale pf"
+                + "ON t.idPuissanceFiscale = pf.id_puissanceFiscale"
+                + "WHERE libelle_carburant = " + carbu
+                + "AND puissance_fiscale = " + CV;
+        Cursor curseur = acces_db.getReadableDatabase().rawQuery(request, null);
+        return curseur.getDouble(0);
+    }
+
     public ArrayList<PuissanceFiscale> getPuissancesFiscales(){
         String request = "SELECT * FROM puissanceFiscale;";
         Cursor curseur = acces_db.getReadableDatabase().rawQuery(request, null);
-        Log.d("mesmessages", "yep");
         return cursorToPFArrayList(curseur);
     }
 
@@ -57,7 +48,6 @@ public class Passerelle {
             listePuissancesFiscales.add(new PuissanceFiscale(id, valeur));
             curseur.moveToNext();
         }
-
         return listePuissancesFiscales;
     }
 
@@ -79,7 +69,6 @@ public class Passerelle {
             listeCarburant.add(new Carburant(id, libelle));
             curseur.moveToNext();
         }
-
         return listeCarburant;
     }
 }

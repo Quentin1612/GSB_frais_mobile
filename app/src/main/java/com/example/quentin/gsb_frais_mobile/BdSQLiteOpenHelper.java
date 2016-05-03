@@ -19,7 +19,7 @@ public class BdSQLiteOpenHelper extends SQLiteOpenHelper {
     private String requeteTarif = "CREATE TABLE tarif("
             + "idPuissanceFiscale INTEGER,"
             + "idCarburant INTEGER,"
-            + "tarif INTEGER NOT NULL,"
+            + "montant INTEGER NOT NULL,"
             + "CONSTRAINT FOREIGN KEY idPuissanceFiscale REFERENCES puissanceFiscale.id_puissanceFIscale,"
             + "CONSTRAINT FOREIGN KEY idCarburant REFERENCES carburant.id_carburant,"
             + "CONSTRAINT PRIMARY KEY (idPuissanceFiscale, idCarburant);";
@@ -40,13 +40,13 @@ public class BdSQLiteOpenHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO puissanceFiscale (puissance_fiscale) VALUES('5');");
         db.execSQL("INSERT INTO puissanceFiscale (puissance_fiscale) VALUES('6');");
 
-        /*db.execSQL(requeteTarif);
-        db.execSQL("INSERT INTO puissanceFiscale (idPuissanceFiscale, idCarburant, tarif) VALUES(1, 1, 0.56);");
-        db.execSQL("INSERT INTO puissanceFiscale (idPuissanceFiscale, idCarburant, tarif) VALUES(1, 2, 0.52);");
-        db.execSQL("INSERT INTO puissanceFiscale (idPuissanceFiscale, idCarburant, tarif) VALUES(2, 1, 0.58);");
-        db.execSQL("INSERT INTO puissanceFiscale (idPuissanceFiscale, idCarburant, tarif) VALUES(2, 2, 0.56);");
-        db.execSQL("INSERT INTO puissanceFiscale (idPuissanceFiscale, idCarburant, tarif) VALUES(3, 1, 0.58);");
-        db.execSQL("INSERT INTO puissanceFiscale (idPuissanceFiscale, idCarburant, tarif) VALUES(3, 2, 0.56);");*/
+        db.execSQL(requeteTarif);
+        db.execSQL("INSERT INTO tarif (idPuissanceFiscale, idCarburant, montant) VALUES(1, 1, 0.56);");
+        db.execSQL("INSERT INTO tarif (idPuissanceFiscale, idCarburant, montant) VALUES(1, 2, 0.52);");
+        db.execSQL("INSERT INTO tarif (idPuissanceFiscale, idCarburant, montant) VALUES(2, 1, 0.58);");
+        db.execSQL("INSERT INTO tarif (idPuissanceFiscale, idCarburant, montant) VALUES(2, 2, 0.56);");
+        db.execSQL("INSERT INTO tarif (idPuissanceFiscale, idCarburant, montant) VALUES(3, 1, 0.58);");
+        db.execSQL("INSERT INTO tarif (idPuissanceFiscale, idCarburant, montant) VALUES(3, 2, 0.56);");
     }
 
     @Override
