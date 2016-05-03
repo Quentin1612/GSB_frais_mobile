@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
-abstract public class BdSQLiteOpenHelper extends SQLiteOpenHelper {
+public class BdSQLiteOpenHelper extends SQLiteOpenHelper {
     private String requeteCarburant = "CREATE TABLE carburant("
             + "id_carburant INTEGER PRIMARY KEY AUTOINCREMENT,"
             + "libelle_carburant TEXT NOT NULL";
@@ -35,5 +35,12 @@ abstract public class BdSQLiteOpenHelper extends SQLiteOpenHelper {
         // db.execSQL(requeteTarif);
 
         db.execSQL("INSERT INTO carburant (libelle_carburant) VALUES('Essence');");
+        db.execSQL("INSERT INTO carburant (libelle_carburant) VALUES('Diesel');");
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // TODO Auto-generated method stub
+
     }
 }
