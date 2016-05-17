@@ -23,6 +23,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     Button leBtnValider;
     RadioGroup BtnRadiosCarburant;
+    RadioGroup BtnRadiosPF;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private ArrayList<PuissanceFiscale> getPFValues() {
-        ArrayList<PuissanceFiscale> resultats = new ArrayList<PuissanceFiscale>();
+        ArrayList<PuissanceFiscale> resultats;
         Passerelle importDonnees = new Passerelle(this);
         resultats = importDonnees.getPuissancesFiscales();
         return resultats;
@@ -91,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private ArrayList<Carburant> getCarburantLib() {
-        ArrayList<Carburant> resultats = new ArrayList<Carburant>();
+        ArrayList<Carburant> resultats;
         Passerelle importDonnees = new Passerelle(this);
         resultats = importDonnees.getCarburants();
         return resultats;
@@ -104,8 +105,8 @@ public class MainActivity extends AppCompatActivity {
                 int nbKm = Integer.parseInt(leNbDeKm.getText().toString());
                 // Log.d("mesMessages",""+nbKm);
 
-                RadioGroup BtnRadiosCV = (RadioGroup)findViewById(R.id.radioGroupPF);
-                int selectedCVIndex = BtnRadiosCV.indexOfChild(findViewById(BtnRadiosCV.getCheckedRadioButtonId()));
+                RadioGroup BtnRadiosPF = (RadioGroup)findViewById(R.id.radioGroupPF);
+                int selectedCVIndex = BtnRadiosPF.indexOfChild(findViewById(BtnRadiosPF.getCheckedRadioButtonId()));
                 int CV = 0;
                 switch(selectedCVIndex) {
                     case 0:

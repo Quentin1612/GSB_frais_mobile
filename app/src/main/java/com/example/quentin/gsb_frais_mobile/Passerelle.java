@@ -14,18 +14,18 @@ public class Passerelle {
     private BdSQLiteOpenHelper acces_db;
 
     public Passerelle (Context ct) {
-        acces_db = new BdSQLiteOpenHelper(ct, base, null, version);
+        acces_db = new BdSQLiteOpenHelper(ct);
     }
 
     public double getMontantAuKilometre(int CV, String carbu) {
         String request = "SELECT montant "
-                + "FROM carburant c"
-                + "INNER JOIN tarif t"
-                + "ON c.id_carburant = t.idCarburant"
-                + "INNER JOIN puissanceFiscale pf"
-                + "ON t.idPuissanceFiscale = pf.id_puissanceFiscale"
+                + "FROM carburant c "
+                + "INNER JOIN tarif t "
+                + "ON c.id_carburant = t.idCarburant "
+                + "INNER JOIN puissanceFiscale pf "
+                + "ON t.idPuissanceFiscale = pf.id_puissanceFiscale "
                 + "WHERE libelle_carburant = " + carbu
-                + "AND puissance_fiscale = " + CV;
+                + " AND puissance_fiscale = " + CV + ";";
         Cursor curseur = acces_db.getReadableDatabase().rawQuery(request, null);
         return curseur.getDouble(0);
     }
@@ -33,10 +33,10 @@ public class Passerelle {
     public ArrayList<PuissanceFiscale> getPuissancesFiscales(){
         String request = "SELECT * FROM puissanceFiscale;";
         Cursor curseur = acces_db.getReadableDatabase().rawQuery(request, null);
-        return cursorToPFArrayList(curseur);
+        return cursorToPuissanceFiscaleArrayList(curseur);
     }
 
-    private ArrayList<PuissanceFiscale> cursorToPFArrayList(Cursor curseur) {
+    private ArrayList<PuissanceFiscale> cursorToPuissanceFiscaleArrayList(Cursor curseur) {
         ArrayList<PuissanceFiscale> listePuissancesFiscales = new ArrayList<PuissanceFiscale>();
         int id;
         String valeur;

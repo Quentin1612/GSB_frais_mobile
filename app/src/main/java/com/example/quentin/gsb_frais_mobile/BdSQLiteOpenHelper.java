@@ -5,52 +5,78 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 public class BdSQLiteOpenHelper extends SQLiteOpenHelper {
-    private String requeteCarburant = "CREATE TABLE carburant("
-            + "id_carburant INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + "libelle_carburant TEXT NOT NULL);";
+    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "gsb_frais";
 
-    private String requetePuissanceFiscale = "CREATE TABLE puissanceFiscale("
-            + "id_puissanceFiscale INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + "puissance_fiscale TEXT NOT NULL);";
+    private final String CARBURANT_KEY = "id_carburant";
+    private final String CARBURANT_LIBELLE = "libelle_carburant";
 
-    private String requeteTarif = "CREATE TABLE tarif("
-            + "idPuissanceFiscale INTEGER,"
-            + "idCarburant INTEGER,"
-            + "montant INTEGER NOT NULL,"
-            + "CONSTRAINT FOREIGN KEY idPuissanceFiscale REFERENCES puissanceFiscale.id_puissanceFIscale,"
-            + "CONSTRAINT FOREIGN KEY idCarburant REFERENCES carburant.id_carburant,"
-            + "CONSTRAINT PRIMARY KEY (idPuissanceFiscale, idCarburant);";
+    private final String PUISSANCE_KEY = "id_puissanceFiscale";
+    private final String PUISSANCE_VALUE = "puissance_fiscale";
 
-    public BdSQLiteOpenHelper(Context context, String name, CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    private final String TARIF_CARBURANT = "idCarburant";
+    private final String TARIF_PUISSANCE = "idPuissanceFiscale";
+    private final String TARIF_VALUE = "montant";
 
+    private final String CARBURANT_TABLE_NAME = "carburant";
+    private final String PUISSANCE_TABLE_NAME = "puissanceFiscale";
+    private final String TARIF_TABLE_NAME = "tarif";
+
+    public BdSQLiteOpenHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(requeteCarburant);
-        db.execSQL("INSERT INTO carburant (libelle_carburant) VALUES('Essence');");
-        db.execSQL("INSERT INTO carburant (libelle_carburant) VALUES('Diesel');");
+        String CARBURANT_TABLE_CREATE =
+                "CREATE TABLE " + CARBURANT_TABLE_NAME + " (" +
+                        CARBURANT_KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        CARBURANT_LIBELLE + " TEXT);";
 
-        db.execSQL(requetePuissanceFiscale);
-        db.execSQL("INSERT INTO puissanceFiscale (puissance_fiscale) VALUES('4');");
-        db.execSQL("INSERT INTO puissanceFiscale (puissance_fiscale) VALUES('5');");
-        db.execSQL("INSERT INTO puissanceFiscale (puissance_fiscale) VALUES('6');");
+        String PUISSANCE_TABLE_CREATE =
+                "CREATE TABLE " + PUISSANCE_TABLE_NAME + " (" +
+                        PUISSANCE_KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        PUISSANCE_VALUE + " INTEGER);";
 
-        db.execSQL(requeteTarif);
-        db.execSQL("INSERT INTO tarif (idPuissanceFiscale, idCarburant, montant) VALUES(1, 1, 0.56);");
-        db.execSQL("INSERT INTO tarif (idPuissanceFiscale, idCarburant, montant) VALUES(1, 2, 0.52);");
-        db.execSQL("INSERT INTO tarif (idPuissanceFiscale, idCarburant, montant) VALUES(2, 1, 0.58);");
-        db.execSQL("INSERT INTO tarif (idPuissanceFiscale, idCarburant, montant) VALUES(2, 2, 0.56);");
-        db.execSQL("INSERT INTO tarif (idPuissanceFiscale, idCarburant, montant) VALUES(3, 1, 0.58);");
-        db.execSQL("INSERT INTO tarif (idPuissanceFiscale, idCarburant, montant) VALUES(3, 2, 0.56);");
+        String TARIF_TABLE_CREATE =
+                "CREATE TABLE " + TARIF_TABLE_NAME + " (" +
+                        TARIF_CARBURANT + " INTEGER NOT NULL, " +
+                        TARIF_PUISSANCE + " INTEGER NOT NULL, " +
+                        TARIF_VALUE + " DOUBLE, CONSTRAINT pk_TARIF PRIMARY KEY (" +
+                        TARIF_CARBURANT + ", " +
+                        TARIF_PUISSANCE + "), CONSTRAINT fk1_TARIF FOREIGN KEY (" +
+                        TARIF_CARBURANT + ") REFERENCES " +
+                        CARBURANT_TABLE_NAME + "(" +
+                        CARBURANT_KEY + "), CONSTRAINT fk2_TARIF FOREIGN KEY (" +
+                        TARIF_PUISSANCE + ") REFERENCES " +
+                        PUISSANCE_TABLE_NAME + "(" +
+                        PUISSANCE_KEY + "));";
+
+        db.execSQL(CARBURANT_TABLE_CREATE);
+        db.execSQL(PUISSANCE_TABLE_CREATE);
+        db.execSQL(TARIF_TABLE_CREATE);
+
+        db.execSQL("INSERT INTO " + CARBURANT_TABLE_NAME + " VALUES(1, 'Diesel')");
+        db.execSQL("INSERT INTO " + CARBURANT_TABLE_NAME + " VALUES(2, 'Essence')");
+        db.execSQL("INSERT INTO " + PUISSANCE_TABLE_NAME + " VALUES(1, 4)");
+        db.execSQL("INSERT INTO " + PUISSANCE_TABLE_NAME + " VALUES(2, 5)");
+        db.execSQL("INSERT INTO " + PUISSANCE_TABLE_NAME + " VALUES(3, 6)");
+        db.execSQL("INSERT INTO " + TARIF_TABLE_NAME + " VALUES(1, 1, 0.52)");
+        db.execSQL("INSERT INTO " + TARIF_TABLE_NAME + " VALUES(1, 2, 0.58)");
+        db.execSQL("INSERT INTO " + TARIF_TABLE_NAME + " VALUES(1, 3, 0.58)");
+        db.execSQL("INSERT INTO " + TARIF_TABLE_NAME + " VALUES(2, 1, 0.62)");
+        db.execSQL("INSERT INTO " + TARIF_TABLE_NAME + " VALUES(2, 2, 0.67)");
+        db.execSQL("INSERT INTO " + TARIF_TABLE_NAME + " VALUES(2, 3, 0.67)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS carburant");
+        db.execSQL("DROP TABLE IF EXISTS puissanceFiscale");
+        db.execSQL("DROP TABLE IF EXISTS tarif");
 
+        this.onCreate(db);
     }
 }
