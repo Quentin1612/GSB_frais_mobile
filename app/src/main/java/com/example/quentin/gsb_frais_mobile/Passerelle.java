@@ -17,16 +17,17 @@ public class Passerelle {
         acces_db = new BdSQLiteOpenHelper(ct);
     }
 
-    public double getMontantAuKilometre(int CV, String carbu) {
+    public double getMontantAuKilometre(int CV, String carburant) {
         String request = "SELECT montant "
                 + "FROM carburant c "
                 + "INNER JOIN tarif t "
                 + "ON c.id_carburant = t.idCarburant "
                 + "INNER JOIN puissanceFiscale pf "
                 + "ON t.idPuissanceFiscale = pf.id_puissanceFiscale "
-                + "WHERE libelle_carburant = " + carbu
+                + "WHERE libelle_carburant = 'Diesel' "
                 + " AND puissance_fiscale = " + CV + ";";
         Cursor curseur = acces_db.getReadableDatabase().rawQuery(request, null);
+        curseur.moveToFirst();
         return curseur.getDouble(0);
     }
 

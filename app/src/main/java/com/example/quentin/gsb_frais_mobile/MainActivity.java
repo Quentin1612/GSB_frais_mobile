@@ -1,10 +1,13 @@
 package com.example.quentin.gsb_frais_mobile;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -102,8 +105,12 @@ public class MainActivity extends AppCompatActivity {
         leBtnValider.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 EditText leNbDeKm = (EditText)findViewById(R.id.editText_nbKm);
-                int nbKm = Integer.parseInt(leNbDeKm.getText().toString());
-                // Log.d("mesMessages",""+nbKm);
+                int nbKm = 0;
+                try {
+                    nbKm = Integer.parseInt(leNbDeKm.getText().toString());
+                } catch (Exception e) {
+
+                }
 
                 RadioGroup BtnRadiosPF = (RadioGroup)findViewById(R.id.radioGroupPF);
                 int selectedCVIndex = BtnRadiosPF.indexOfChild(findViewById(BtnRadiosPF.getCheckedRadioButtonId()));
@@ -121,25 +128,64 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 RadioGroup BtnRadiosCarburant = (RadioGroup)findViewById(R.id.radioGroupFuel);
-                int selectedFuelIndex = BtnRadiosCarburant.indexOfChild(findViewById(BtnRadiosCarburant.getCheckedRadioButtonId()));
+                int selectedFuelIndex = BtnRadiosCarburant.getCheckedRadioButtonId();
                 String carburant = "";
                 switch(selectedFuelIndex){
-                    case 0:
-                        carburant = "Essence";
-                        break;
-                    case 1:
+                    case 2131492976:
                         carburant = "Diesel";
+                        break;
+                    case 2131492977:
+                        carburant = "Essence";
                         break;
                 }
 
-                Intent i = new Intent(getApplicationContext(), ResultActivity.class);
-                i.putExtra("nbrKm", nbKm);
-                i.putExtra("nbrCV", CV);
-                i.putExtra("carburantChoisi", carburant);
-                startActivity(i);
-                finish();
+                if(checkFormsAreFilled(nbKm, CV, carburant)) {
+                    Intent i = new Intent(getApplicationContext(), ResultActivity.class);
+                    i.putExtra("nbrKm", nbKm);
+                    i.putExtra("nbrCV", CV);
+                    i.putExtra("carburantChoisi", carburant);
+                    startActivity(i);
+                    finish();
+                } else {
+                    alertePopUp(nbKm, CV, carburant);
+                }
             }
         });
+    }
+
+    private Boolean checkFormsAreFilled(int nbKm, int CV, String carburant) {
+        Boolean formsAreFilled = false;
+        if(nbKm != 0 && CV != 0 && !carburant.equals("")) {
+            formsAreFilled = true;
+        }
+
+        return formsAreFilled;
+    }
+
+    private void alertePopUp(int nbKm, int CV, String carburant) {
+        AlertDialog alerte = new AlertDialog.Builder(MainActivity.this).create();
+        alerte.setTitle("Les champs suivants n'ont pas été renseignés :");
+        alerte.setMessage(getEmptyFields(nbKm, CV, carburant));
+        alerte.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alerte.show();
+    }
+
+    private String getEmptyFields(int nbKm, int CV, String carburant) {
+        String missingFields = "";
+        if(nbKm == 0){
+            missingFields += "\n" + "- Nombre de kilomètres";
+        } if(CV == 0) {
+            missingFields += "\n" + "- Puissance fiscale du véhicule";
+        } if(carburant.equals("")) {
+            missingFields += "\n" + "- Carburant du véhicule";
+        }
+
+        return missingFields;
     }
 
     @Override
