@@ -17,7 +17,7 @@ public class Passerelle {
         acces_db = new BdSQLiteOpenHelper(ct);
     }
 
-    public double getMontantAuKilometre(int CV, String carburant) {
+    public float getMontantAuKilometre(int CV, String carburant) {
         String request = "SELECT montant "
                 + "FROM carburant c "
                 + "INNER JOIN tarif t "
@@ -28,7 +28,7 @@ public class Passerelle {
                 + " AND puissance_fiscale = " + CV + ";";
         Cursor curseur = acces_db.getReadableDatabase().rawQuery(request, null);
         curseur.moveToFirst();
-        return curseur.getDouble(0);
+        return curseur.getFloat(0);
     }
 
     public ArrayList<PuissanceFiscale> getPuissancesFiscales(){

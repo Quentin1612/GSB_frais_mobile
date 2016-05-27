@@ -6,7 +6,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -54,8 +53,8 @@ public class ResultActivity extends AppCompatActivity {
         String valeurCarburant = bu.getString("carburantChoisi");
 
         Passerelle importDonnees = new Passerelle(this);
-        double fraisAuKilometre = importDonnees.getMontantAuKilometre(valueCV, valeurCarburant);
-        double montantFrais = valueKm * fraisAuKilometre * 100 ;
+        float fraisAuKilometre = importDonnees.getMontantAuKilometre(valueCV, valeurCarburant);
+        float montantFrais = valueKm * fraisAuKilometre * 100 ;
         montantFrais = Math.round(montantFrais) / 100;
 
         outputNbKm.setText("Kilomètres renseignés : " + valueKm + " km");
